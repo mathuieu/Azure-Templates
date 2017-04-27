@@ -51,7 +51,7 @@
         "existing"
       ]
     },
-    "vnetName": {
+    "virtualNetworkName": {
       "type": "string"
     }
   },
@@ -71,7 +71,7 @@
           "contentVersion": "1.0.0.0"
         },
         "parameters": {
-          "vnetName": {
+          "virtualNetworkName": {
             "value": "[parameters('storageAccountName')]"
           }
         }

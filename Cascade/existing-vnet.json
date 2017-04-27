@@ -2,7 +2,7 @@
 	"$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
 	"contentVersion": "1.0.0.0",
 	"parameters": {
-		"vnetName": {
+		"virtualNetworkName": {
 			"type": "string",
 			"metadata": {
 				"description": "Name of the first VNET."
@@ -14,7 +14,7 @@
 	"outputs": {
 		"idVNET": {
 			"type": "string",
-			"value": "[resourceId('Microsoft.Network/virtualNetworks', parameters('vnetName'))]"
+			"value": "[resourceId('Microsoft.Network/virtualNetworks', parameters('virtualNetworkName'))]"
 		}
 	}
 }
