@@ -56,7 +56,7 @@
     }
   },
   "variables": {
-    "nicName":"[concat(parameters('VMname'),'-NIC']",
+    "nicName":"[concat(parameters('VMname'),'-NIC')]",
     "VNETtemplatelink": "[concat('https://raw.githubusercontent.com/exampleuser/templates/master/',parameters('newOrExistingVnet'),'-vnet.json')]"
   },
   "resources": [
