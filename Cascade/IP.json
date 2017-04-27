@@ -1,0 +1,28 @@
+{
+  "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+		"dnsIPname": {
+		"type": "string",
+		"metadata": {"description": "Name for theIP."},
+		"defaultValue": "[concat('PublicIP',uniquestring(resourceGroup().id))]"
+		}
+	},
+  "variables": {},
+  "resources": [ 
+	{
+	  "apiVersion": "2015-06-15",
+	  "type": "Microsoft.Network/publicIPAddresses",
+	  "name": "[concat('IP-', parameters('dnsIPname'))]",
+	  "location": "[resourceGroup().location]",
+	  "properties": {
+		"publicIPAllocationMethod": "Dynamic",
+		"dnsSettings": {
+		  "domainNameLabel": "[parameters('dnsIPname')]"
+			}
+	  }
+	}
+
+  ],
+  "outputs": {  }
+}
