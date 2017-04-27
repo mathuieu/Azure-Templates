@@ -6,8 +6,8 @@
 $ResourceGroupName = "cascadejson"
 $location = "West Europe"
 
-$TemplateFile = "https://github.com/mathuieu/Azure-Templates/raw/master/Cascade/VM-Windows.json"
-$TemplateParameterFile ="https://raw.githubusercontent.com/mathuieu/Azure-Templates/Cascade/VM-Windows.param.json"
+$TemplateFile =         "https://github.com/mathuieu/Azure-Templates/raw/master/Cascade/VM-Windows.json"
+$TemplateParameterFile ="https://github.com/mathuieu/Azure-Templates/raw/master/Cascade/VM-Windows.param.json"
 
 # création du ressource group destination si besoin
 Get-AzureRmResourceGroup -Name $ResourceGroupName -ev notPresent -ea 0
