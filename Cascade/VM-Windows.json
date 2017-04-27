@@ -72,7 +72,7 @@
         },
         "parameters": {
           "virtualNetworkName": {
-            "value": "[parameters('storageAccountName')]"
+            "value": "[parameters('virtualNetworkName')]"
           }
         }
       }
