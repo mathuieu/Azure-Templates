@@ -17,7 +17,7 @@
         "virtualNetworkName":{
             "value": "VNETjson"
         },
-        "virtualSubnetName":{
+        "subnetName":{
             "value": "Subnet1"
         }
     }
