@@ -83,7 +83,7 @@
       "name": "[variables('nicName')]",
       "location": "[resourceGroup().location]",
       "dependsOn": [
-        "[resourceId('Microsoft.Resources/deployments/', 'linkedTemplate'))]"
+        "[resourceId('Microsoft.Resources/deployments/', 'linkedTemplate')]"
       ],
       "properties": {
         "ipConfigurations": [
