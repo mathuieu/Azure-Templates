@@ -12,9 +12,11 @@
 	"variables": {},
 	"resources": [],
 	"outputs": {
-		"idVNET": {
+		"vnetID": {
 			"type": "string",
 			"value": "[resourceId('Microsoft.Network/virtualNetworks', parameters('virtualNetworkName'))]"
-		}
+		},
+		"subnetID":{"type": "string","value": "[resourceId('Microsoft.Network/virtualNetworks/subnets', parameters('virtualNetworkName'))]"}
+
 	}
 }
