@@ -67,7 +67,7 @@
       "properties": {
         "mode": "Incremental",
         "templateLink": {
-          "uri": "[variables('templatelink')]",
+          "uri": "[variables('VNETtemplatelink')]",
           "contentVersion": "1.0.0.0"
         },
         "parameters": {
