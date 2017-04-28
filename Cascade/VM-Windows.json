@@ -54,14 +54,14 @@
     "virtualNetworkName": {
       "type": "string"
     },
-    "virtualSubnetName": {
+    "subnetName": {
       "type": "string"
     }
   },
   "variables": {
     "nicName":"[concat(parameters('VMname'),'-NIC')]",
     "VNETtemplatelink": "[concat('https://github.com/mathuieu/Azure-Templates/raw/master/Cascade/',parameters('newOrExistingVnet'),'-vnet.json')]",
-    "subnetRef": "[resourceId('Microsoft.Network/virtualNetworks/subnets', parameters('virtualNetworkName'), parameters('virtualSubnetName'))]"
+    "subnetRef": "[resourceId('Microsoft.Network/virtualNetworks/subnets', parameters('virtualNetworkName'), parameters('subnetName'))]"
   },
   "resources": [
     {
@@ -78,8 +78,8 @@
           "virtualNetworkName": {
             "value": "[parameters('virtualNetworkName')]"
           },
-          "virtualSubnetName": {
-            "value": "[parameters('virtualSubnetName')]"
+          "subnetName": {
+            "value": "[parameters('subnetName')]"
           }
         }
       }
