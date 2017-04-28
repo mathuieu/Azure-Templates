@@ -7,6 +7,12 @@
 			"metadata": {
 				"description": "Name of the first VNET."
 			}
+		},
+		"subnetName": {
+			"type": "string",
+			"metadata": {
+				"description": "Name of the first subnet in the first VNET. Please note, an additional subnet called GatewaySubnet will be created where the VirtualNetworkGateway will be deployed. The name of that subnet must not be changed from GatewaySubnet."
+			}
 		}
 	},
 	"variables": {},
@@ -16,7 +22,9 @@
 			"type": "string",
 			"value": "[resourceId('Microsoft.Network/virtualNetworks', parameters('virtualNetworkName'))]"
 		},
-		"subnetID":{"type": "string","value": "[resourceId('Microsoft.Network/virtualNetworks/subnets', parameters('virtualNetworkName'))]"}
-
+		"subnetID": {
+			"type": "string",
+			"value": "[resourceId('Microsoft.Network/virtualNetworks/subnets', parameters('subnetName'))]"
+		}
 	}
 }
