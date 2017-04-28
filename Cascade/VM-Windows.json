@@ -57,7 +57,7 @@
   },
   "variables": {
     "nicName":"[concat(parameters('VMname'),'-NIC')]",
-    "VNETtemplatelink": "[concat('https://github.com/mathuieu/Azure-Templates/raw/master/Cascade',parameters('newOrExistingVnet'),'-vnet.json')]"
+    "VNETtemplatelink": "[concat('https://github.com/mathuieu/Azure-Templates/raw/master/Cascade/',parameters('newOrExistingVnet'),'-vnet.json')]"
   },
   "resources": [
     {
