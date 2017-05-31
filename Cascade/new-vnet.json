@@ -10,32 +10,27 @@
 		},
 		"addressPrefix": {
 			"type": "string",
-			"defaultValue": "[variables('addressPrefix')]",
+			"defaultValue": "10.86.0.0/16",
 			"metadata": {
 				"description": "Address space for the first VNET."
 			}
 		},
 		"subnetName": {
 			"type": "string",
-			"defaultValue": "[variables('subnetName')]",
+			"defaultValue": "subnet1",
 			"metadata": {
 				"description": "Name of the first subnet in the first VNET. Please note, an additional subnet called GatewaySubnet will be created where the VirtualNetworkGateway will be deployed. The name of that subnet must not be changed from GatewaySubnet."
 			}
 		},
 		"subnetPrefix": {
 			"type": "string",
-			"defaultValue": "[variables('subnetPrefix')]",
+			"defaultValue": "10.86.0.0/24",
 			"metadata": {
 				"description": "The prefix for the first subnet in the first VNET."
 			}
 		}
 	},
-	"variables": {
-		"addressPrefix":"10.86.0.0/16",
-		"subnetName":"subnet1",
-		"subnetPrefix":"10.86.0.0/24"
-
-	},
+	"variables": {	},
 	"resources": [
 		{
 			"apiVersion": "2015-06-15",

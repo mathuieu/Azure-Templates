@@ -9,13 +9,13 @@
             "value": "PasswordLocal*"
         },
         "dnsLabelPrefix": {
-            "value": "mastodon"
+            "value": "Serveur2016-A"
         },
         "newOrExistingVnet": {
             "value": "existing"
         },
         "virtualNetworkName":{
-            "value": "VNETjson"
+            "value": "VnetTest"
         },
         "subnetName":{
             "value": "Subnet1"
