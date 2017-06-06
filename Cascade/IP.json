@@ -5,7 +5,7 @@
 		"dnsIPname": {
 		"type": "string",
 		"metadata": {"description": "Name for theIP."},
-		"defaultValue": "[concat('PublicIP',uniquestring(resourceGroup().id))]"
+		"defaultValue": "[toLower(concat('ip-',uniquestring(resourceGroup().id)))]"
 		}
 	},
   "variables": {},

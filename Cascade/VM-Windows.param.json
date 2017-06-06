@@ -8,8 +8,11 @@
         "adminPassword": {
             "value": "PasswordLocal*"
         },
-        "dnsLabelPrefix": {
+        "VMname": {
             "value": "Serveur2016-A"
+        },
+        "dnsLabelPrefix": {
+            "value": "serveur2016-a"
         },
         "newOrExistingVnet": {
             "value": "existing"

@@ -4,7 +4,6 @@
   "parameters": {
     "VMname": {
       "type": "string",
-      "defaultValue": "VMname",
       "metadata": {
         "description": "Name for VM, will bu used for the the Public IP DNS by default."
       }
@@ -98,9 +97,9 @@
             "name": "ipconfig1",
             "properties": {
               "privateIPAllocationMethod": "Dynamic",
-              // "publicIPAddress": {
-              // "id": "[resourceId('Microsoft.Network/publicIPAddresses',variables('publicIPAddressName'))]"
-              // },
+              "publicIPAddress": {
+              "id": "[resourceId('Microsoft.Network/publicIPAddresses',variables('publicIPAddressName'))]",
+              },
               "subnet": {
                 "id": "[variables('subnetRef')]"
               }

@@ -6,8 +6,8 @@
 $ResourceGroupName = "TESTS"
 $location = "West Europe"
 
+# $TemplateFile =         "https://github.com/mathuieu/Azure-Templates/raw/master/Cascade/new-vnet.json"
 $TemplateFile =         "https://github.com/mathuieu/Azure-Templates/raw/master/Cascade/VM-Windows.json"
-$TemplateFile =         "https://github.com/mathuieu/Azure-Templates/raw/master/Cascade/new-vnet.json"
 $TemplateParameterFile ="https://github.com/mathuieu/Azure-Templates/raw/master/Cascade/VM-Windows.param.json"
 
 # création du ressource group destination si besoin
