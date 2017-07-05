@@ -24,7 +24,7 @@
     "publicIPAddressName": {
 		"type": "string",
 		"metadata": {"description": "Name for theIP."},
-		"defaultValue": "[toLower(concat('ip-',Parameters('VMname')))]"
+		"defaultValue": "[toLower(concat(Parameters('VMname'),'-IP'))]"
 		},
     "dnsLabelPrefix": {
       "type": "string",
