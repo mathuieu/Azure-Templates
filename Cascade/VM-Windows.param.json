@@ -9,19 +9,19 @@
             "value": "PasswordLocal*"
         },
         "VMname": {
-            "value": "Serveur2016-A"
+            "value": "Serveur2"
         },
         "dnsLabelPrefix": {
-            "value": "serveur2016-a"
+            "value": "serveur2"
         },
         "newOrExistingVnet": {
             "value": "existing"
         },
         "virtualNetworkName":{
-            "value": "VnetTest"
+            "value": "adVNET"
         },
         "subnetName":{
-            "value": "Subnet1"
+            "value": "adSubnet"
         }
     }
 }
