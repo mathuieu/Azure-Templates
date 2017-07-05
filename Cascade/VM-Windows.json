@@ -21,6 +21,11 @@
         "description": "Password for the Virtual Machine."
       }
     },
+    "publicIPAddressName": {
+		"type": "string",
+		"metadata": {"description": "Name for theIP."},
+		"defaultValue": "[toLower(concat('ip-',Parameters('VMname')))]"
+		},
     "dnsLabelPrefix": {
       "type": "string",
       "defaultValue": "[Parameters('VMname')]",
@@ -98,7 +103,7 @@
             "properties": {
               "privateIPAllocationMethod": "Dynamic",
               "publicIPAddress": {
-              "id": "[resourceId('Microsoft.Network/publicIPAddresses',variables('publicIPAddressName'))]",
+              "id": "[resourceId('Microsoft.Network/publicIPAddresses',parameters('publicIPAddressName'))]",
               },
               "subnet": {
                 "id": "[variables('subnetRef')]"
