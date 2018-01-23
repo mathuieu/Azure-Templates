@@ -96,8 +96,8 @@
       }
     },
     {
-      "condition": "[equals(parameters('AddPublicIPAddress'), 'yes')]",
       "type": "Microsoft.Resources/deployments",
+      "condition": "[equals(parameters('AddPublicIPAddress'), 'yes')]",
       "apiVersion": "2015-01-01",
       "name": "publicIPlinkedTemplate",
       "properties": {
@@ -115,6 +115,7 @@
     },
     {
       "type": "Microsoft.Network/networkInterfaces",
+      "condition": "[equals(parameters('AddPublicIPAddress'), 'yes')]",
       "apiVersion": "2016-03-30",
       "name": "[variables('nicName')]",
       "location": "[resourceGroup().location]",
@@ -131,6 +132,29 @@
               "publicIPAddress": {
                 "id": "[resourceId('Microsoft.Network/publicIPAddresses',concat('IP-', parameters('dnsLabelPrefix')))]"
               },
+              "subnet": {
+                "id": "[variables('subnetRef')]"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "type": "Microsoft.Network/networkInterfaces",
+      "condition": "[equals(parameters('AddPublicIPAddress'), 'no')]",
+      "apiVersion": "2016-03-30",
+      "name": "[variables('nicName')]",
+      "location": "[resourceGroup().location]",
+      "dependsOn": [
+        "[resourceId('Microsoft.Resources/deployments/', 'vNetlinkedTemplate')]"
+      ],
+      "properties": {
+        "ipConfigurations": [
+          {
+            "name": "ipconfig1",
+            "properties": {
+              "privateIPAllocationMethod": "Dynamic",
               "subnet": {
                 "id": "[variables('subnetRef')]"
               }
