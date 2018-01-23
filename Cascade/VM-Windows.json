@@ -68,13 +68,17 @@
       "type": "string"
     },
     "tagValues": {
-      "type": "object"
+      "type": "object",
+      "defaultValue": {
+        "Deploiement": "ARM Template",
+        "Environment": "TESTS"
+      }
     }
   },
   "variables": {
     "nicName":"[concat(parameters('VMname'),'-NIC')]",
-    "VNETtemplatelink": "[concat('https://github.com/mathuieu/Azure-Templates/raw/master/Cascade/',parameters('newOrExistingVnet'),'-vnet.json')]",
-    "publicIPtemplateURL": "https://github.com/mathuieu/Azure-Templates/raw/master/Cascade/IP.json",
+    "VNETtemplatelink": "[concat(uri(deployment().properties.templateLink.uri,parameters('newOrExistingVnet')),'-vnet.json')]",
+    "publicIPtemplateURL": "[uri(deployment().properties.templateLink.uri, 'IP.json')]",
     "subnetRef": "[resourceId('Microsoft.Network/virtualNetworks/subnets', parameters('virtualNetworkName'), parameters('subnetName'))]"
   },
   "resources": [
