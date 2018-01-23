@@ -117,7 +117,7 @@
       "type": "Microsoft.Network/networkInterfaces",
       "condition": "[equals(parameters('AddPublicIPAddress'), 'yes')]",
       "apiVersion": "2016-03-30",
-      "name": "[variables('nicName')]",
+      "name": "[concat(variables('nicName'),'pIP')]",
       "location": "[resourceGroup().location]",
       "dependsOn": [
         "[resourceId('Microsoft.Resources/deployments/', 'vNetlinkedTemplate')]",
