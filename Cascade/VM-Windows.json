@@ -21,17 +21,23 @@
         "description": "Password for the Virtual Machine."
       }
     },
-    "publicIPAddressName": {
-		"type": "string",
-		"metadata": {"description": "Name for theIP."},
-		"defaultValue": "[toLower(concat(Parameters('VMname'),'-IP'))]"
-		},
-    "dnsLabelPrefix": {
+    "AddPublicIPAddress": {
       "type": "string",
-      "defaultValue": "[Parameters('VMname')]",
+      "allowedValues": [
+          "yes",
+          "no"
+      ],
+      "defaultValue": "yes",
       "metadata": {
-        "description": "Unique DNS Name for the Public IP used to access the Virtual Machine."
+          "description": "Select whether the VM should have a public IP or not."
       }
+    },
+    "dnsLabelPrefix": {
+    "type": "string",
+    "defaultValue": "[Parameters('VMname')]",
+    "metadata": {
+      "description": "Unique DNS Name for the Public IP used to access the Virtual Machine."
+    }
     },
     "windowsOSVersion": {
       "type": "string",
@@ -65,6 +71,7 @@
   "variables": {
     "nicName":"[concat(parameters('VMname'),'-NIC')]",
     "VNETtemplatelink": "[concat('https://github.com/mathuieu/Azure-Templates/raw/master/Cascade/',parameters('newOrExistingVnet'),'-vnet.json')]",
+    "publicIPtemplateURL": "https://github.com/mathuieu/Azure-Templates/raw/master/IP.json",
     "subnetRef": "[resourceId('Microsoft.Network/virtualNetworks/subnets', parameters('virtualNetworkName'), parameters('subnetName'))]"
   },
   "resources": [
@@ -89,6 +96,24 @@
       }
     },
     {
+      "condition": "[equals(parameters('AddPublicIPAddress'), 'yes')]",
+      "type": "Microsoft.Resources/deployments",
+      "apiVersion": "2015-01-01",
+      "name": "publicIPlinkedTemplate",
+      "properties": {
+        "mode": "Incremental",
+        "templateLink": {
+          "uri": "[variables('publicIPtemplateURL')]",
+          "contentVersion": "1.0.0.0"
+        },
+        "parameters": {
+          "dnsLabelPrefix": {
+            "value": "[parameters('dnsLabelPrefix')]"
+          }
+        }
+      }
+    },
+    {
       "type": "Microsoft.Network/networkInterfaces",
       "apiVersion": "2016-03-30",
       "name": "[variables('nicName')]",
@@ -102,9 +127,9 @@
             "name": "ipconfig1",
             "properties": {
               "privateIPAllocationMethod": "Dynamic",
-              // "publicIPAddress": {
-              // "id": "[resourceId('Microsoft.Network/publicIPAddresses',parameters('publicIPAddressName'))]"
-              // },
+              "publicIPAddress": {
+                "id": "[resourceId('Microsoft.Network/publicIPAddresses',concat('IP-', parameters('dnsLabelPrefix')))]"
+              },
               "subnet": {
                 "id": "[variables('subnetRef')]"
               }
