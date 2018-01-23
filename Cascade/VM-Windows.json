@@ -85,7 +85,6 @@
       "type": "Microsoft.Resources/deployments",
       "apiVersion": "2015-01-01",
       "name": "vNetlinkedTemplate",
-      "tags": "[parameters('tagValues')]",
       "properties": {
         "mode": "Incremental",
         "templateLink": {
@@ -107,7 +106,6 @@
       "condition": "[equals(parameters('AddPublicIPAddress'), 'yes')]",
       "apiVersion": "2015-01-01",
       "name": "publicIPlinkedTemplate",
-      "tags": "[parameters('tagValues')]",
       "properties": {
         "mode": "Incremental",
         "templateLink": {
