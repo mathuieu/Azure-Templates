@@ -1,7 +1,10 @@
 {
 	"apiVersion": "2016-03-30",
 	"parameters": {
-		"virtualNetworkName": 	{"value":"VNETjson"}
+		"vnetName": 	{"value":"VNETjson"},
+		"addressPrefix":{"value":"10.86.0.0/16"},
+		"subnetName":	{"value":"Subnet1"},
+		"subnetPrefix":	{"value":"10.86.0.0/24"}
 	},
 	"variables": {}
 }
