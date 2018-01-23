@@ -70,7 +70,6 @@
     "tagValues": {
       "type": "object",
       "defaultValue": {
-        "Deploiement": "ARM Template",
         "Environment": "TESTS"
       }
     }
