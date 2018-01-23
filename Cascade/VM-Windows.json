@@ -70,12 +70,13 @@
     "tagValues": {
       "type": "object",
       "defaultValue": {
-        "Environment": "TESTS"
+        "Environment": "TESTS",
+        "deploiement": "ARM Template"
       }
     }
   },
   "variables": {
-    "nicName":"[concat(parameters('VMname'),'-NIC')]",
+    "nicName":"[if(equals(parameters('AddPublicIPAddress'), 'yes'), concat(parameters('VMname'),'-NICpIP'), concat(parameters('VMname'),'-NIC'))]",
     "VNETtemplatelink": "[concat(uri(deployment().properties.templateLink.uri,parameters('newOrExistingVnet')),'-vnet.json')]",
     "publicIPtemplateURL": "[uri(deployment().properties.templateLink.uri, 'IP.json')]",
     "subnetRef": "[resourceId('Microsoft.Network/virtualNetworks/subnets', parameters('virtualNetworkName'), parameters('subnetName'))]"
@@ -123,7 +124,7 @@
       "type": "Microsoft.Network/networkInterfaces",
       "condition": "[equals(parameters('AddPublicIPAddress'), 'yes')]",
       "apiVersion": "2016-03-30",
-      "name": "[concat(variables('nicName'),'pIP')]",
+      "name": "[concat(parameters('VMname'),'-NICpIP')]",
       "location": "[resourceGroup().location]",
       "dependsOn": [
         "[resourceId('Microsoft.Resources/deployments/', 'vNetlinkedTemplate')]",
@@ -150,7 +151,7 @@
       "type": "Microsoft.Network/networkInterfaces",
       "condition": "[equals(parameters('AddPublicIPAddress'), 'no')]",
       "apiVersion": "2016-03-30",
-      "name": "[variables('nicName')]",
+      "name": "[concat(parameters('VMname'),'-NIC')]",
       "location": "[resourceGroup().location]",
       "dependsOn": [
         "[resourceId('Microsoft.Resources/deployments/', 'vNetlinkedTemplate')]"
