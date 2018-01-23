@@ -78,7 +78,7 @@
     {
       "type": "Microsoft.Resources/deployments",
       "apiVersion": "2015-01-01",
-      "name": "linkedTemplate",
+      "name": "vNetlinkedTemplate",
       "properties": {
         "mode": "Incremental",
         "templateLink": {
@@ -119,7 +119,8 @@
       "name": "[variables('nicName')]",
       "location": "[resourceGroup().location]",
       "dependsOn": [
-        "[resourceId('Microsoft.Resources/deployments/', 'linkedTemplate')]"
+        "[resourceId('Microsoft.Resources/deployments/', 'vNetlinkedTemplate')]",
+        "[resourceId('Microsoft.Resources/deployments/', 'publicIPlinkedTemplate')]"
       ],
       "properties": {
         "ipConfigurations": [
