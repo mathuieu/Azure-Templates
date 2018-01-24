@@ -17,7 +17,6 @@
       "type": "Microsoft.Compute/virtualMachines/extensions",
       "name": "[concat(parameters('VMname'),'/', 'BGinfoExtension')]",
       "location": "[resourceGroup().location]",
-      "dependsOn": ["[concat('Microsoft.Compute/virtualMachines/', parameters('VMname'))]"],
       "properties": {
       "publisher": "Microsoft.Compute",
       "type": "BGInfo",
