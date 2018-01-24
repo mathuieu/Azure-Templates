@@ -9,19 +9,19 @@
             "value": "PasswordLocal*"
         },
         "VMname": {
-            "value": "Serveurjettable1"
+            "value": "FRserveur"
         },
         "dnsLabelPrefix": {
-            "value": "Serveurjettable1"
+            "value": "FRserveurMQE"
         },
         "newOrExistingVnet": {
             "value": "existing"
         },
         "virtualNetworkName":{
-            "value": "adVNET"
+            "value": "vnetFrance"
         },
         "subnetName":{
-            "value": "adSubnet"
+            "value": "subnet1"
         },
         "tagValues":{
             "value": {"Deploiement":"ARM Template","Environment":"TESTS","params":"manuels"}

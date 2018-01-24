@@ -212,6 +212,20 @@
           ]
         }
       }
+    },
+    {
+      "apiVersion": "2015-06-15",
+      "type": "Microsoft.Compute/virtualMachines/extensions",
+      "name": "[concat(parameters('VMname'),'/', 'BGinfoExtension')]",
+      "location": "[resourceGroup().location]",
+      "dependsOn": ["[concat('Microsoft.Compute/virtualMachines/', parameters('VMname'))]"],
+      "properties": {
+      "publisher": "Microsoft.Compute",
+      "type": "BGInfo",
+      "typeHandlerVersion": "2.1",
+      "settings": { },
+      "protectedSettings": null
+      }
     }
   ],
   "outputs": {}
