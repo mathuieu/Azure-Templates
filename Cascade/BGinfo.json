@@ -1,0 +1,31 @@
+{
+  "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "VMname": {
+        "type": "string",
+        "metadata": {
+          "description": "Nom de la VM existante sur laquelle ajouter BGinfo"
+        }
+    }
+  },
+  "variables": {
+  },
+  "resources": [
+    {
+      "apiVersion": "2015-06-15",
+      "type": "Microsoft.Compute/virtualMachines/extensions",
+      "name": "[concat(parameters('VMname'),'/', 'BGinfoExtension')]",
+      "location": "[resourceGroup().location]",
+      "dependsOn": ["[concat('Microsoft.Compute/virtualMachines/', parameters('VMname'))]"],
+      "properties": {
+      "publisher": "Microsoft.Compute",
+      "type": "BGInfo",
+      "typeHandlerVersion": "2.1",
+      "settings": { },
+      "protectedSettings": null
+      }
+    }
+  ],
+  "outputs": {  }
+}

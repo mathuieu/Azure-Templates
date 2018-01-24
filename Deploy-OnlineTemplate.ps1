@@ -3,8 +3,8 @@
 #     login and subscribtion select before 
 #######################################################
 
-$ResourceGroupName = "DomaineHSM.si"
-$location = "West Europe"
+$ResourceGroupName = "SponsorFrance"
+$location = "francecentral"
 
 # $TemplateFile =         "https://github.com/mathuieu/Azure-Templates/raw/master/Cascade/new-vnet.json"
 $TemplateFile =         "https://github.com/mathuieu/Azure-Templates/raw/master/Cascade/VM-Windows.json"
