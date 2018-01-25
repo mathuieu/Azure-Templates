@@ -5,7 +5,7 @@
     "VMname": {
       "type": "string",
       "metadata": {
-        "description": "Name for VM, will bu used for the the Public IP DNS by default."
+        "description": "Name for VM, will be used for the the Public IP DNS by default."
       }
     },
     "adminUsername": {
@@ -82,8 +82,8 @@
   },
   "variables": {
     "nicName":"[if(equals(parameters('AddPublicIPAddress'), 'yes'), concat(parameters('VMname'),'-NICpIP'), concat(parameters('VMname'),'-NIC'))]",
-    "VNETtemplatelink": "[concat(uri(deployment().properties.templateLink.uri,parameters('newOrExistingVnet')),'-vnet.json')]",
-    "publicIPtemplateURL": "[uri(deployment().properties.templateLink.uri, 'IP.json')]",
+    "VNETtemplatelink": "[concat('https://github.com/mathuieu/Azure-Templates/raw/master/Cascade/',parameters('newOrExistingVnet'),'-vnet.json')]",
+    "publicIPtemplateURL": "https://github.com/mathuieu/Azure-Templates/raw/master/Cascade/IP.json",
     "subnetRef": "[resourceId('Microsoft.Network/virtualNetworks/subnets', parameters('virtualNetworkName'), parameters('subnetName'))]"
   },
   "resources": [
@@ -230,6 +230,28 @@
       "typeHandlerVersion": "2.1",
       "settings": { },
       "protectedSettings": null
+      }
+    },
+    {
+      "type": "Microsoft.Compute/virtualMachines/extensions",
+      "name": "[concat(parameters('VMname'),'/', 'DSCextension')]",
+      "apiVersion": "2015-05-01-preview",
+      "location": "[resourceGroup().location]",
+      "dependsOn": [
+          "[concat('Microsoft.Compute/virtualMachines/', parameters('VMname'))]"
+      ],
+      "properties": {
+          "publisher": "Microsoft.Powershell",
+          "type": "DSC",
+          "typeHandlerVersion": "2.19",
+          "autoUpgradeMinorVersion": true,
+          "settings": {
+              "configuration": {
+                          "url": "https://francestockage.blob.core.windows.net/windows-powershell-dsc/ConfigDSC_AzureMQE.ps1.zip",
+                          "script": "ConfigDSC_AzureMQE.ps1",
+                          "function": "standardMQE"
+                      }
+          }
       }
     }
   ],
