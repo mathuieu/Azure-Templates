@@ -72,6 +72,14 @@
     "subnetName": {
       "type": "string"
     },
+    "urlPowershellDSC": {
+      "type": "string",
+      "defaultValue": "",
+      "metadata": {
+        "description": "URL du zip de la config Powershell DSC à appliquer à la VM si besoin"
+      }
+
+    },
     "tagValues": {
       "type": "object",
       "defaultValue": {
@@ -230,6 +238,27 @@
       "typeHandlerVersion": "2.1",
       "settings": { },
       "protectedSettings": null
+      }
+    },
+    {
+      "type": "Microsoft.Compute/virtualMachines/extensions",
+      "name": "[concat(parameters('VMname'),'/', 'DSCextension')]",
+      "condition": "[not(equals(parameters('urlPowershellDSC'), ''))]",
+      "apiVersion": "2015-05-01-preview",
+      "location": "[resourceGroup().location]",
+      "dependsOn": ["[concat('Microsoft.Compute/virtualMachines/', parameters('VMname'))]"],
+      "properties": {
+          "publisher": "Microsoft.Powershell",
+          "type": "DSC",
+          "typeHandlerVersion": "2.19",
+          "autoUpgradeMinorVersion": true,
+          "settings": {
+              "configuration": {
+                          "url": "[parameters('urlPowershellDSC')]",
+                          "script": "ConfigDSC_AzureMQE.ps1",
+                          "function": "standardMQE"
+                      }
+          }
       }
     }
   ],
