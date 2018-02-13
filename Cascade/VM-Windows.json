@@ -74,6 +74,7 @@
     },
     "urlPowershellDSC": {
       "type": "string",
+      "defaultValue": "",
       "metadata": {
         "description": "URL du zip de la config Powershell DSC à appliquer à la VM si besoin"
       }

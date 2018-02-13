@@ -27,7 +27,7 @@
             "value": "https://francestockage.blob.core.windows.net/windows-powershell-dsc/ConfigDSC_AzureMQEE.ps1.zip"
         },
         "tagValues":{
-            "value": {"Deploiement":"ARM Template","Environment":"TESTS","params":"manuels","message":"coucou Hipployte"}
+            "value": {"Deploiement":"ARM Template","Environment":"TESTS","params":"manuels","message":"trhdnxpaloskdcj"}
         }
     }
 }
