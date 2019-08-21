@@ -9,25 +9,31 @@
             "value": "PasswordLocal*"
         },
         "VMname": {
-            "value": "FRserveur"
+            "value": "DCivanti"
+        },
+        "vmSize":{
+            "value": "Standard_A1"
+        },
+        "AddPublicIPAddress": {
+            "value": "no"
         },
         "dnsLabelPrefix": {
-            "value": "FRserveurMQE"
+            "value": "xxpasIP"
         },
         "newOrExistingVnet": {
             "value": "existing"
         },
         "virtualNetworkName":{
-            "value": "vnetFrance"
+            "value": "ivantivnet"
         },
         "subnetName":{
             "value": "subnet1"
         },
         "urlPowershellDSC":{
-            "value": "https://francestockage.blob.core.windows.net/windows-powershell-dsc/ConfigDSC_AzureMQEE.ps1.zip"
+            "value": ""
         },
         "tagValues":{
-            "value": {"Deploiement":"ARM Template","Environment":"TESTS","params":"manuels","message":"trhdnxpaloskdcj"}
+            "value": {"Deploiement":"local ARM Template","Environment":"DEMO-IVANTI","params":"manuels","role":"demo"}
         }
     }
 }
