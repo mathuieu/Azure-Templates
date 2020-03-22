@@ -1,5 +1,5 @@
 {
-  "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
   "contentVersion": "1.0.0.0",
   "parameters": {
     "VMname": {
@@ -41,14 +41,15 @@
     },
     "windowsOSVersion": {
       "type": "string",
-      "defaultValue": "2016-Datacenter",
+      "defaultValue": "2019-Datacenter",
       "allowedValues": [
         "2008-R2-SP1",
         "2012-Datacenter",
         "2012-R2-Datacenter",
         "2016-Nano-Server",
         "2016-Datacenter-with-Containers",
-        "2016-Datacenter"
+        "2016-Datacenter",
+        "2019-Datacenter"
       ],
       "metadata": {
         "description": "The Windows version for the VM. This will pick a fully patched image of this given Windows version."
@@ -56,7 +57,7 @@
     },
     "vmSize":{
       "type": "string",
-      "defaultValue": "Standard_A2"
+      "defaultValue": "Standard_B2s"
 
     },
     "newOrExistingVnet": {
@@ -76,7 +77,7 @@
       "type": "string",
       "defaultValue": "",
       "metadata": {
-        "description": "URL du zip de la config Powershell DSC ├а appliquer ├а la VM si besoin"
+        "description": "URL du zip de la config Powershell DSC ра appliquer ра la VM si besoin"
       }
 
     },
@@ -233,6 +234,7 @@
       "location": "[resourceGroup().location]",
       "dependsOn": ["[concat('Microsoft.Compute/virtualMachines/', parameters('VMname'))]"],
       "properties": {
+      "autoUpgradeMinorVersion" :true,
       "publisher": "Microsoft.Compute",
       "type": "BGInfo",
       "typeHandlerVersion": "2.1",
@@ -244,21 +246,24 @@
       "type": "Microsoft.Compute/virtualMachines/extensions",
       "name": "[concat(parameters('VMname'),'/', 'DSCextension')]",
       "condition": "[not(equals(parameters('urlPowershellDSC'), ''))]",
-      "apiVersion": "2015-05-01-preview",
+      "apiVersion": "2019-07-01",
       "location": "[resourceGroup().location]",
       "dependsOn": ["[concat('Microsoft.Compute/virtualMachines/', parameters('VMname'))]"],
-      "properties": {
+      "properties": {        
           "publisher": "Microsoft.Powershell",
           "type": "DSC",
           "typeHandlerVersion": "2.19",
           "autoUpgradeMinorVersion": true,
           "settings": {
+            "modulesUrl":"[parameters('urlPowershellDSC')]",
+            "absURL":"",
               "configuration": {
                           "url": "[parameters('urlPowershellDSC')]",
                           "script": "ConfigDSC_AzureMQE.ps1",
                           "function": "standardMQE"
                       }
-          }
+          },
+          "protectedSettings":{}
       }
     }
   ],
