@@ -3,8 +3,7 @@
     "contentVersion": "1.0.0.0",
     "parameters": {
 		"dnsIPname": 	{
-                "value":"serveur2016-a"
+                "value":"nom-dns-ip"
             }
-	},
-	"variables": {}
+  }
 }

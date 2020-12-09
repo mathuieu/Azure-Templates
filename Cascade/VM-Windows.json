@@ -2,6 +2,13 @@
   "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
   "contentVersion": "1.0.0.0",
   "parameters": {
+    "DeploymentLocation": {
+      "type": "string",
+      "defaultValue": "[resourceGroup().location]",
+      "metadata": {
+        "description": "Location par défaut du déploiement des ressources"
+      }
+    },
     "VMname": {
       "type": "string",
       "metadata": {
@@ -103,10 +110,12 @@
     }
   },
   "variables": {
-    "nicName": "[if(equals(parameters('AddPublicIPAddress'), 'yes'), concat(parameters('VMname'),'-NICpIP'), concat(parameters('VMname'),'-NIC'))]",
+    "nicName": "[if(equals(parameters('AddPublicIPAddress'), 'yes'), concat(parameters('VMname'),'-NIC-PIP'), concat(parameters('VMname'),'-NIC'))]",
     "VNETtemplatelink": "[concat('https://github.com/mathuieu/Azure-Templates/raw/master/Cascade/',parameters('newOrExistingVnet'),'-vnet.json')]",
     "publicIPtemplateURL": "https://github.com/mathuieu/Azure-Templates/raw/master/Cascade/IP.json",
-    "subnetRef": "[resourceId('Microsoft.Network/virtualNetworks/subnets', parameters('virtualNetworkName'), parameters('subnetName'))]"
+    "subnetRef": "[resourceId('Microsoft.Network/virtualNetworks/subnets', parameters('virtualNetworkName'), parameters('subnetName'))]",
+    "configurationFunction": "[concat(parameters('PowershellDSC_script'),'\\',parameters('PowershellDSC_fonction'))]"
+
   },
   "resources": [
     {
@@ -151,8 +160,8 @@
       "type": "Microsoft.Network/networkInterfaces",
       "condition": "[equals(parameters('AddPublicIPAddress'), 'yes')]",
       "apiVersion": "2016-03-30",
-      "name": "[concat(parameters('VMname'),'-NICpIP')]",
-      "location": "[resourceGroup().location]",
+      "name": "[concat(parameters('VMname'),'-NIC-PIP')]",
+      "location": "FranceCentral",
       "dependsOn": [
         "[resourceId('Microsoft.Resources/deployments/', 'vNetlinkedTemplate')]",
         "[resourceId('Microsoft.Resources/deployments/', 'publicIPlinkedTemplate')]"
@@ -179,7 +188,7 @@
       "condition": "[equals(parameters('AddPublicIPAddress'), 'no')]",
       "apiVersion": "2016-03-30",
       "name": "[concat(parameters('VMname'),'-NIC')]",
-      "location": "[resourceGroup().location]",
+      "location": "FranceCentral",
       "dependsOn": [
         "[resourceId('Microsoft.Resources/deployments/', 'vNetlinkedTemplate')]"
       ],
@@ -201,7 +210,7 @@
       "type": "Microsoft.Compute/virtualMachines",
       "apiVersion": "2016-04-30-preview",
       "name": "[parameters('VMname')]",
-      "location": "[resourceGroup().location]",
+      "location": "FranceCentral",
       "tags": "[parameters('tagValues')]",
       "dependsOn": [
         "[resourceId('Microsoft.Network/networkInterfaces/', variables('nicName'))]"
@@ -245,7 +254,7 @@
       "apiVersion": "2015-06-15",
       "type": "Microsoft.Compute/virtualMachines/extensions",
       "name": "[concat(parameters('VMname'),'/', 'BGinfoExtension')]",
-      "location": "[resourceGroup().location]",
+      "location": "FranceCentral",
       "dependsOn": [
         "[concat('Microsoft.Compute/virtualMachines/', parameters('VMname'))]"
       ],
@@ -263,8 +272,8 @@
       "type": "Microsoft.Compute/virtualMachines/extensions",
       "name": "[concat(parameters('VMname'),'/', 'DSCextension')]",
       "condition": "[not(equals(parameters('PowershellDSC_url'), ''))]",
-      "apiVersion": "2019-07-01",
-      "location": "[resourceGroup().location]",
+      "apiVersion": "2019-12-01",
+      "location": "FranceCentral",
       "dependsOn": [
         "[concat('Microsoft.Compute/virtualMachines/', parameters('VMname'))]"
       ],
@@ -275,11 +284,9 @@
         "autoUpgradeMinorVersion": true,
         "settings": {
           "modulesUrl": "[parameters('PowershellDSC_url')]",
-          "configurationFunction": "[parameters('PowershellDSC_fonction')]",
-          "configuration": {
-            "url": "[parameters('PowershellDSC_url')]",
-            "script": "[parameters('PowershellDSC_script')]",
-            "function": "[parameters('PowershellDSC_fonction')]"
+          "configurationFunction": "[variables('configurationFunction')]",
+          "Properties": {
+            "folderName":"DossierFromTemplate"
           }
         },
         "protectedSettings": {

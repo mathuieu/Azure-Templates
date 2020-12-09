@@ -6,34 +6,40 @@
             "value": "adminlocal"
         },
         "adminPassword": {
-            "value": "PasswordLocal*"
+            "value": "*********"
         },
         "VMname": {
-            "value": "DCivanti"
+            "value": "VM-MQ-DSC-1"
         },
         "vmSize":{
-            "value": "Standard_A1"
+            "value": "Standard_D4s_v3"
         },
         "AddPublicIPAddress": {
             "value": "no"
         },
         "dnsLabelPrefix": {
-            "value": "xxpasIP"
+            "value": "VM-MQ-DSC-1"
         },
         "newOrExistingVnet": {
             "value": "existing"
         },
         "virtualNetworkName":{
-            "value": "ivantivnet"
+            "value": "Demo_AG_Medialog-vnet"
         },
         "subnetName":{
-            "value": "subnet1"
+            "value": "default"
         },
-        "urlPowershellDSC":{
-            "value": ""
+        "PowershellDSC_url":{
+            "value": "https://storintune.blob.core.windows.net/windows-powershell-dsc/ConfigDSC_AzureMQE.ps1.zip?sv=2019-02-02&sr=b&sig=Jlm02umD7k64BIHhmM56VoR1paUhLqhoW07S5Ozsvi4%3D&se=2020-12-09T09%3A45%3A31Z&sp=r"
+        },
+        "PowershellDSC_script":{
+            "value": "ConfigDSC_AzureMQE.ps1"
+        },
+        "PowershellDSC_fonction":{
+            "value": "paramsMQE"
         },
         "tagValues":{
-            "value": {"Deploiement":"local ARM Template","Environment":"DEMO-IVANTI","params":"manuels","role":"demo"}
+            "value": {"Deploiement":"local ARM Template","Environment":"DEMO-DSC","params":"manuels","role":"demo"}
         }
     }
 }
