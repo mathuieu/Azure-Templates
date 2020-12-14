@@ -150,6 +150,9 @@
           "contentVersion": "1.0.0.0"
         },
         "parameters": {
+          "DeploymentLocation": {
+              "value": "[parameters('DeploymentLocation')]"
+          },
           "dnsLabelPrefix": {
             "value": "[parameters('dnsLabelPrefix')]"
           }
@@ -161,7 +164,7 @@
       "condition": "[equals(parameters('AddPublicIPAddress'), 'yes')]",
       "apiVersion": "2016-03-30",
       "name": "[concat(parameters('VMname'),'-NIC-PIP')]",
-      "location": "FranceCentral",
+      "location":"[parameters('DeploymentLocation')]",
       "dependsOn": [
         "[resourceId('Microsoft.Resources/deployments/', 'vNetlinkedTemplate')]",
         "[resourceId('Microsoft.Resources/deployments/', 'publicIPlinkedTemplate')]"
@@ -188,7 +191,7 @@
       "condition": "[equals(parameters('AddPublicIPAddress'), 'no')]",
       "apiVersion": "2016-03-30",
       "name": "[concat(parameters('VMname'),'-NIC')]",
-      "location": "FranceCentral",
+      "location":"[parameters('DeploymentLocation')]",
       "dependsOn": [
         "[resourceId('Microsoft.Resources/deployments/', 'vNetlinkedTemplate')]"
       ],
@@ -210,7 +213,7 @@
       "type": "Microsoft.Compute/virtualMachines",
       "apiVersion": "2016-04-30-preview",
       "name": "[parameters('VMname')]",
-      "location": "FranceCentral",
+      "location":"[parameters('DeploymentLocation')]",
       "tags": "[parameters('tagValues')]",
       "dependsOn": [
         "[resourceId('Microsoft.Network/networkInterfaces/', variables('nicName'))]"
@@ -254,7 +257,7 @@
       "apiVersion": "2015-06-15",
       "type": "Microsoft.Compute/virtualMachines/extensions",
       "name": "[concat(parameters('VMname'),'/', 'BGinfoExtension')]",
-      "location": "FranceCentral",
+      "location":"[parameters('DeploymentLocation')]",
       "dependsOn": [
         "[concat('Microsoft.Compute/virtualMachines/', parameters('VMname'))]"
       ],
@@ -273,10 +276,8 @@
       "name": "[concat(parameters('VMname'),'/', 'DSCextension')]",
       "condition": "[not(equals(parameters('PowershellDSC_url'), ''))]",
       "apiVersion": "2019-12-01",
-      "location": "FranceCentral",
-      "dependsOn": [
-        "[concat('Microsoft.Compute/virtualMachines/', parameters('VMname'))]"
-      ],
+      "location":"[parameters('DeploymentLocation')]",
+      "dependsOn": ["[concat('Microsoft.Compute/virtualMachines/', parameters('VMname'))]"],
       "properties": {
         "publisher": "Microsoft.Powershell",
         "type": "DSC",
