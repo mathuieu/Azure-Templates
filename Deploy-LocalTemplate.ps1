@@ -1,6 +1,26 @@
 ﻿#######################################################
 #        Déploiement d'un Template ARM local
 #######################################################
+#  fonction pour générer une SAS
+function Get-SAS {
+    param (
+        OptionalParameters
+    )
+    $saKey = Get-AzStorageAccountKey -ResourceGroupName $ArchiveResourceGroupName -Name $ArchiveStorageAccountName
+# on créé ensuite le contexte de stockage en utilisant une clé
+$StorContext = New-AzStorageContext –StorageAccountName $ArchiveStorageAccountName -StorageAccountKey $saKey[0].Value 
+
+# récupérer l'URL du ZIP dans le blob (= Générer la SAS pour l'utiliser dans le template)
+$ConfigURI = New-AzStorageBlobSASToken `
+  -Container 'windows-powershell-dsc' `
+  -Blob $ArchiveBlobName `
+  -Context $StorContext `
+  -Permission r `
+  -ExpiryTime (Get-Date).AddHours(2.0) -FullUri
+Write-Host $ConfigURI
+
+}
+#######################################################
 # connexion au compte Azure
 $SubscriptionName = "Visual Studio Enterprise – MPN"
 Connect-AzAccount -Subscription $SubscriptionName -UseDeviceAuthentication
@@ -18,20 +38,25 @@ $TemplateFile = "$env:HOMEDRIVE$env:HOMEPATH\GitHub\Azure-Templates\Cascade\VM-W
 # $TemplateFile = "$env:HOMEDRIVE$env:HOMEPATH\OneDrive - Infeeny\Azure\Scripts\Docker\template.json"
 # $TemplateFile = "$env:HOMEDRIVE$env:HOMEPATH\GitHub\Azure-Templates\Cascade\new-vnet.json"
 # $TemplateFile = "$env:HOMEDRIVE$env:HOMEPATH\GitHub\Azure-Templates\Cascade\IP.json"
-$TemplateObject = ""
+# $TemplateObject = ""
 
 $TemplateParameterFile ="$env:HOMEDRIVE$env:HOMEPATH\GitHub\Azure-Templates\Cascade\VM-Windows.param.json"
 # $TemplateParameterFile ="$env:HOMEDRIVE$env:HOMEPATH\GitHub\Azure-Templates\Cascade\IP.param.json"
 # $TemplateParameterFile ="$env:HOMEDRIVE$env:HOMEPATH\OneDrive - Infeeny\Azure\Scripts\Docker\parameters.json"
 # $TemplateParameterFile ="$env:HOMEDRIVE$env:HOMEPATH\OneDrive - Infeeny\Azure\Scripts\Template\PointToSiteVPN\VPNP2S.parameters.json"
 
-$TemplateParameterFileText = [System.IO.File]::ReadAllText($TemplateParameterFile)
-$TemplateParameterObject = ConvertFrom-Json $TemplateParameterFileText -AsHashtable
+# transformation du fichier en objet non conforme
+# $TemplateParameterFileText = [System.IO.File]::ReadAllText($TemplateParameterFile)
+# $TemplateParameterObject = ConvertFrom-Json $TemplateParameterFileText -AsHashtable
+
+# transformation du fichier en objet compréhensible par Azure
+$azureparameters = get-content $TemplateParameterFile | convertfrom-json -ashashtable -depth 100
+$TemplateParameterObject = @{ }
+$azureparameters.parameters.keys | ForEach-Object { $TemplateParameterObject[$_] = $azureparameters.parameters[$_]['value'] }
 
 # modification de l'url DSC si besoin
-$NEW_PowershellDSC_url = $ConfigURI
-$TemplateParameterObject.parameters.PowershellDSC_url.value = $NEW_PowershellDSC_url
-$TemplateParameterObject.parameters.PowershellDSC_url
+$TemplateParameterObject.powershellDSC_url = $ConfigURI
+$TemplateParameterObject.PowershellDSC_url
 
 # création du ressource group destination si besoin
 Get-AzResourceGroup -Name $ResourceGroupName -ev notPresent -ea 0
@@ -45,4 +70,7 @@ Clear-Host;Test-AzResourceGroupDeployment -ResourceGroupName $ResourceGroupName 
 
 # Déploiement du template
 # New-AzResourceGroupDeployment -Name "Deploy-Powershell" -Mode Complete -ResourceGroupName $ResourceGroupName -TemplateFile $TemplateFile -Verbose -Force -TemplateParameterFile $TemplateParameterFile
-New-AzResourceGroupDeployment -Name "VMDSC9-Final" -Mode Incremental -ResourceGroupName $ResourceGroupName -TemplateFile $TemplateFile -TemplateParameterFile $TemplateParameterFile -Verbose -Force 
+New-AzResourceGroupDeployment -Name "VMDS2-Ben-2" -Mode Incremental -ResourceGroupName $ResourceGroupName -TemplateFile $TemplateFile -TemplateParameterFile $TemplateParameterFile -Verbose -Force 
+
+# Déploiement du template au format fichier et les parametres en objet
+New-AzResourceGroupDeployment -Name "VMDS2-Ben-3" -Mode Incremental -ResourceGroupName $ResourceGroupName -TemplateFile $TemplateFile -TemplateParameterObject $TemplateParameterObject -Verbose -Force 
