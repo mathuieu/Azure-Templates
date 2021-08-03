@@ -15,7 +15,7 @@
 </a>
 
 ## Vnet 
-<p>Cr?éer et simple avec un seul subnet (subnet1), permet de choisir la plage IP (addressPrefix)</p>
+<p>Créer et simple avec un seul subnet (subnet1), permet de choisir la plage IP (addressPrefix)</p>
 <a href="https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fmathuieu%2FAzure-Templates%2Fmaster%2FCascade%2Fnew-vnet.json" target="_blank">
     <img src="http://azuredeploy.net/deploybutton.png"/>
 </a>
